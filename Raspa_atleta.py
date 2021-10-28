@@ -1,33 +1,28 @@
-# Objetivo : dado um nome recupera as informações de  qual o comportamento esportivo deste nome:
-    #Compras: tipos de provas,
-    #Resultados: tempos
-    #tendencia de compras
-    #tendencia de esportes
-    #anos que as provas foram realizadas
-    # pais em que as provas foram realizadas
-
-# Informa tipo de pesquisa
-    # nome
-# procura na web
-    # utilizando a bibliotea googlesearch
-        # chave por nome
-            # Encontrado Site com o meu nome incompletos
-                # não usar aspas para a pesquisa
-                    #  O efeito colateral será que vem nomes que contem partes dos nomes digititados
-            # Imagens contendo o meu nome
-            # site de varios tipos(esportes, buscadores de informações, juridicos, redes sociais, etc.)
-            # sites que o link não esta mais funcional
-            # o conteudo pode ser inscrições, resultados de provas e etc.
-# Limpando os dados
-    # criar lista de sites correlacionados
-    # explorando os dados da url(pais,site, ano,
-        #baseado na lista de correlacionados realizar contagem dos topicos
-# valida se o site esta no ar e obtem informações
-
-from googlesearch import search # baixar biblioteca
+#Este projeto tem como finalidade criar uma solução que recupere na WEB as informações esportivas de uma pessoa.
+"""
+#FASE 1 - Procurando na web - Utilizando a bibliotea googlesearch
+            #FASE 1.1
+              Filtros das pesquisas atraves do nome e cpfj
+              Validar os sites que o link não estão mais funcionando
+              Obter atraves da url:
+                    Os sites correlacionadosos tipos(esportes, buscadores de informações, juridicos, redes sociais, etc.)
+                    Pais
+                    Ano.
+                    Sites dos organizadores das provas
+            #FASE 1.2
+              Ler o HTML dos sites e extraindo as informações: inscrições, resultados de provas e etc.
+              Resultados, categoria, tempos, local das provas e etc.
+              Confirmar as informações obtidas da fase 1.1 (
+                Os sites correlacionadosos tipos(esportes, buscadores de informações, juridicos, redes sociais, etc.)
+                    Pais
+                    Ano.
+"""
+# bibliotecas utilizadas
+from googlesearch import search
 import urllib
 import urllib.request
 from datetime import datetime
+
 class raspa_url:
         def separa_url(site1,ano,lista_url_sites_palabras_esporte):   #obtem o endereço absoluto do site e o pais
                 url_separada=[]
@@ -103,8 +98,9 @@ class valida_site:
                         #breakpoint()
 # trata os dados
 # mostra os dados
-nome=str(input("Digite um nome - > ")).upper().strip()
+nome=str(input("Digite um nome completo - > ")).upper().strip()
 ano=1999
+teste=0
 cont=0
 contotal=0
 listacerta= []
