@@ -1,8 +1,8 @@
-# Este projeto tem como finalidade criar uma solução que recupere na WEB as informações esportivas de uma pessoa.  
+# Este projeto é uma solução que recupera na WEB as informações esportivas de uma pessoa.  
  
     #FASE 1 - Procurando na web - Utilizando a bibliotea googlesearch
             #FASE 1.1
-              Filtros das pesquisas atraves do nome e cpfj
+              Filtros das pesquisas atraves do nome e cpf
               Validar os sites que o link não estão mais funcionando          
               Obter atraves da url:
                     Os sites correlacionadosos tipos(esportes, buscadores de informações, juridicos, redes sociais, etc.)                
