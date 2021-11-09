@@ -20,8 +20,8 @@ class raspa_url:
                 Informcao_url3 = [url_separad2]
                 # inicia raspagem da url
                 Informcao_url3 = Informcao_url3 + [raspa_url.separa_url_generico(resultado, lista_url_sites_palavras_pais, "pais")]
-                Informcao_url3 = Informcao_url3 + [raspa_url.separa_url_generico(resultado, lista_url_sites_palavras_cidades, "cidades")]
                 Informcao_url3 = Informcao_url3 + [raspa_url.separa_url_generico(resultado, lista_url_sites_palavras_uf, "uf")]
+                Informcao_url3 = Informcao_url3 + [raspa_url.separa_url_generico(resultado, lista_url_sites_palavras_cidades, "cidades")]
                 Informcao_url3 = Informcao_url3 + [raspa_url.separa_url_generico(resultado, lista_url_sites_palavras_tiparq, "tipo arquivo")]
                 Informcao_url3 = Informcao_url3 + [raspa_url.separa_url_generico(resultado, lista_url_sites_palabras_correlacionadas,"correlacionados")]
                 Informcao_url3 = Informcao_url3 + [raspa_url.separa_url_generico(resultado, lista_url_sites_palabras_esporte, "esporte")]
@@ -29,14 +29,25 @@ class raspa_url:
                 Informcao_url_lista2.append(Informcao_url3)
 
         def separa_url_generico(site1, lista,tipo):
-            V_return = "NA"
+            V_return = []
             for n in range(0, len(lista)):
                 v_achado = str(lista[n]).upper() in site1.upper()
                 if v_achado == True:
                     achado = lista[n].upper()
-                    V_return=achado
-                    break
+                    V_return.append(lista[n].upper())
+            consolida_url.soma(tipo, V_return)
             return V_return
+
+class consolida_url:
+        def soma(v_tipo,v_lista):
+            for n in range(0,len(v_lista)):
+                 if v_lista[n] not in v_totdurl:
+                    v_totdurl.update({v_lista[n]: 1})
+                 else:
+                    v_valor=v_totdurl[v_lista[n]]+1
+                    v_totdurl.update({v_lista[n]:v_valor})
+
+
 
 class valida_site:
         def tipo(site1):
@@ -56,7 +67,8 @@ class valida_site:
                 try:
                            site = urllib.request.urlopen(site1)
                 except Exception as erro:
-                        print(f"\033[31m    ERRO: Site não OK..  \033[m:")
+                        print(f"\033[31mERRO: Site não OK..  \033[m:")
+                        """
                         print(f"\033[32m        erro.__module__            - >\033[m {erro.__module__}")
                         print(f"\033[32m        erro.__class__             - >\033[m {erro.__class__} ")
                         print(f"\033[32m        erro.__repr__()            - >\033[m {erro.__repr__()}")
@@ -67,14 +79,19 @@ class valida_site:
                         print(f"\033[32m        erro.__cause__             - >\033[m {erro.__cause__}")
                         print(f"\033[32m        erro.__context__           - >\033[m {erro.__context__}")
                         print(f"\033[32m        erro.__doc__               - >\033[m {erro.__doc__}")
+                        """
                         listaerro.append(resultado)
                 else:
                         print(f"Site OK")
                         #print(site.read())
                         #breakpoint()
+
+
+
 # trata os dados
 # mostra os dados
 nome=str(input("Digite um nome completo - > ")).upper().strip()
+
 print(f"Consultando o nome {nome}")
 ano=1942
 cont=0
@@ -88,13 +105,14 @@ ano_corrente1 = datetime.now()
 ano_corrente = ano_corrente1.year
 lista_url_sites_palavras_ano=[]
 lista_ano=[]
+v_totdurl={}
 #montagem das listas
-lista_url_sites_palavras_pais=["BR"]
-lista_url_sites_palavras_cidades = ["barbacena","ceara","PraiaGrande"
+lista_url_sites_palavras_pais=[".br"]
+lista_url_sites_palavras_cidades = ["barbacena","ceara","PraiaGrande", "toronto"
                                     ,"Santos","SãoPaulo","\RIO"
-                                    ,"Riojaneiro","rio-de-janeiro","Riodejaneiro","porto-alegre"]
+                                    ,"Riojaneiro","rio-de-janeiro","Riodejaneiro","porto-alegre","goiania"]
 lista_url_sites_palavras_uf = ["\SP","_sp","_rj","\RJ","rs/"]
-lista_url_sites_palavras_tiparq=["/imagem/","/doc/"]
+lista_url_sites_palavras_tiparq=["/imagem/","/doc/",".pdf"]
 
 while True:             #MONTA A LISTA DE ANOS
       if ano == ano_corrente:
@@ -102,15 +120,15 @@ while True:             #MONTA A LISTA DE ANOS
       ano += 1
       lista_url_sites_palavras_ano.append(str(ano))
 
-lista_url_sites_palabras_correlacionadas = ["resultados", "resultado"
-    , "esporte" , "esportes", "campeonato", "campea"
-    , "esportiva" , "esportivas", "etapa", "etapas"
-    , "atletas", "atleta", "premiação", "premiações"
-    , "endurance", "olinpico", "destaque", "resultado"
-    ,"clubes","cob","mundial","doping","medalhista","pan"
-    ,"pannamericano","ouro","prata", "bronze"
-    ,"ouro","torneio", "jogos","jebs"]
-lista_url_sites_palabras_esporte = ["corrida", "natação"
+lista_url_sites_palabras_correlacionadas = ["resultado"
+    , "campeonato", "campea","competicao"
+    , "esportiva" "etapa", "athletes","olimpiada"
+    , "atleta", "premiação", "premiações", "recorde"
+    , "endurance", "olimpico", "destaque"
+    ,"clube","mundial","doping","medalhista"
+    ,"pannamericano","ouro","prata", "bronze","evento"
+    ,"torneio", "jogo","jebs","esporte"]
+lista_url_sites_palabras_esporte = ["corrida", "natação","natacao"
     , "bike", "ciclismo", "maratona", "triathlon"
     , "biatlhon", "duatlhom", "runner", "meia", "marathon"
     ,"basquete", "AQUATHLON","futebol"
@@ -128,8 +146,8 @@ for resultado in search('"'+nome+'"',
         listacerta.append(resultado)
         raspa_url.separa_url(resultado,ano,lista_url_sites_palabras_esporte)
         cont += 1
-    else:
-        print(f"#### {resultado}")
+    #else:
+    #    print(f"#### {resultado}")
     contotal+=1
 print("#"*40)
 print(f"Qtd de sites correlacionados                     -> {cont}")
@@ -143,6 +161,14 @@ print("<<< URL >>>")
 print("#"*40)
 
 for n in range(0,len(listacerta)):
-    print(f" {n+1} - {listacerta[n]}")
-    print(f"{Informcao_url_lista2[n]}")
+    print(f"{n+1} - {listacerta[n]}")
+#    for n1 in range(0,len(Informcao_url_lista2[n])):
+#        print(f" {Informcao_url_lista2[n][n1]}")
+
 print("#"*40)
+#print(f"{v_totdurl}")
+#for n2 in range(0,len(v_totdurl)):
+ #   print(f"{n2 + 1} - {v_totdurl[n2]}")
+
+for chave in v_totdurl.keys():
+        print(f'Chave = {chave} e Valor = {v_totdurl[chave]}')
